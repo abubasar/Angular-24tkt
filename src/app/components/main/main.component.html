@@ -1,0 +1,588 @@
+<style>
+  .custom-search-input-2 label {
+    color: #333;
+    text-align: left;
+    display: block;
+    margin-left: 15px;
+  }
+
+  .hero_single.version_2:before {
+    background: url(assets/img/bg.png) center center no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  .widgetSearchBtn {
+    width: 216px;
+    padding: 10px;
+    opacity: 1;
+  }
+
+  a.primaryBtn {
+    color: #fff;
+  }
+
+  .primaryBtn {
+    border-radius: 34px;
+    background-image: linear-gradient(96deg, #53b2fe, #065af3);
+    margin: -50px;
+    box-shadow: 0 1px 7px 0 rgba(0, 0, 0, .2);
+    display: inline-block;
+
+    -ms-flex-negative: 0;
+
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    text-align: center;
+  }
+
+  .latoBlack {
+    font-weight: 800;
+  }
+
+  .font24 {
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  .widgetSearchBtnMultiCity {
+    margin-bottom: -20px !important;
+
+
+  }
+
+  .dsb-flight-tab {
+    position: relative;
+    color: #fff;
+    width: 270px;
+    margin: auto;
+    background: #aaaaaa;
+    border-radius: 5px;
+  }
+
+  .dsb_flight {
+    position: absolute;
+    box-shadow: 1px 3px 18px rgba(0, 0, 0, 0.25);
+    background: #fff;
+    border-radius: 5px;
+    width: 100%;
+    bottom: -35px;
+  }
+
+  .dsb-checkbox-list {
+    width: 470px;
+    margin: auto;
+  }
+
+  .dsb-form-group {
+    padding: 30px 0;
+  }
+
+  .dsb-form-m {
+    border: 1px solid #ddd;
+    margin: 15px;
+    padding: 0px 15px;
+  }
+
+  .dsb-form-m {
+    border: 1px solid #ddd;
+    margin: 15px;
+    padding: 0px 15px;
+  }
+
+  .custom-search-input-2 input {
+    border: none;
+  }
+
+  .dsb-form-border {
+    border-right: 1px solid #ddd;
+    padding-bottom: 16px;
+  }
+
+  .container_check .checkmark {
+    display: inline-block;
+    border-radius: 100%;
+    width: 25px;
+    height: 25px;
+    ;
+  }
+
+  @media (max-width: 768px) {
+    .custom-search-input-2 {
+      background: #fff;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+
+    .dsb-form-border[_ngcontent-c3] {
+      border-bottom: 1px solid #ddd;
+
+    }
+
+    .custom-search-input-2 i {
+      padding-right: 10px;
+      top: 78px !important;
+      line-height: 18px;
+      background-color: transparent;
+      font-size: 12px;
+      left: -425px !important;
+
+    }
+
+  }
+
+  .dsbInfo {
+    font-size: 6px;
+    color: #ddd;
+
+  }
+
+  .dsb-input {
+    position: relative;
+  }
+
+  .appendBottom5 {
+    margin-bottom: 5px;
+  }
+
+
+  .font14 {
+    font-size: 14px;
+    line-height: 14px;
+  }
+
+  .blackText {
+    color: #000;
+  }
+
+  .appendBottom3 {
+    margin-bottom: 3px;
+  }
+
+
+  .font12 {
+    font-size: 12px;
+    line-height: 12px;
+  }
+
+  .greyText {
+    color: #9b9b9b;
+  }
+
+  .makeFlex.hrtlCenter {
+    align-items: center;
+    display: flex;
+  }
+
+  .calc60 {
+    width: calc(100% - 60px);
+  }
+
+  .pushRight {
+    margin-left: auto;
+  }
+
+  .latoBold {
+    font-weight: 700;
+  }
+
+  .dsb-form-m .calc60 .font14 p {
+    font-size: 14px;
+    line-height: 14px;
+    text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2);
+
+  }
+
+  .hero_single.version_2 .wrapper p {
+    font-weight: 400;
+    margin: 5px 0 0 0;
+    padding: 0;
+    font-size: 14px;
+    text-shadow: 0px 01px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  .lightGreyText {
+    color: #9b9b9b;
+  }
+
+  .truncate {
+    width: 100%;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+  }
+
+</style>
+<main>
+  <section class="hero_single version_2">
+    <div class="wrapper">
+      <div class="container">
+
+        <form [formGroup]="searchForm" (ngSubmit)="searchFlight()" style="padding-top: 0px;">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="dsb-flight-tab">
+                <div class="dsb_flight">
+                  <div><i class="flight icon-flight" style="color: #065af3;"></i></div>
+                  <span style="color: #065af3;">Flights</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dsb-form-group  custom-search-input-2">
+            <div class="row no-gutters">
+              <div class="col-lg-12">
+                <div class="dsb-checkbox-list">
+                  <ul class="selc-flight-options prefer small-check" style="margin-left:10px;">
+                    <li class="desktop-only no-border multiCity-snipe">
+                      <div class="checkboxes float-left">
+                        <label class="container_check">
+                          Oneway Trip
+                          <input type="radio" name="JourneyType" formControlName="JourneyType" value="1">
+
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="checkboxes float-left">
+                        <label class="container_check">
+                          Round Trip
+                          <input checked=checked type="radio" formControlName="JourneyType" name="JourneyType"
+                            value="2">
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="checkboxes float-left">
+                        <label class="container_check">
+                          Multi city
+                          <input (click)="addNewFlight()" type="radio" name="JourneyType" formControlName="JourneyType"
+                            value="3">
+
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+
+              <div class="dsb-form-m row">
+
+
+                <div formArrayName="OriginDestinationInformation" class="row col-lg-10">
+                  <div class="row col-lg-12"
+                    *ngFor="let mySearchForm of searchForm.get('OriginDestinationInformation').controls; let i=index">
+                    <div [formGroupName]="i" class="row col-lg-12">
+                      <div class="col-lg-3 dsb-form-border">
+                        <div class="form-group">
+                          <label for="From">From</label>
+                          <span *ngIf="validateOriginCity(i)">
+                            <p style="color: red;font-size:7px;">please Fill up this field</p>
+                          </span>
+                          <ng-template #typeaheadItemTemplate let-model="item">
+                            <div class="makeFlex hrtlCenter">
+                              <div class="calc60">
+                                <p class="font14 appendBottom5 blackText">{{model.City}}, {{model.Country}}</p>
+                                <p class="font12 greyText appendBottom3"> {{model.Value}}</p>
+                              </div>
+                              <div class="pushRight font14 lightGreyText latoBold">{{model.Code}}</div>
+                            </div>
+                          </ng-template>
+                          <input type="hidden" name="OriginDestinationInformation[0].OriginLocationCode"
+                            formControlName="OriginLocationCode" />
+                          <input type="hidden" name="OriginDestinationInformation[0].OriginLocation"
+                            formControlName="OriginLocation" />
+                          <input type="hidden" name="OriginDestinationInformation[0].OriginAirport"
+                            formControlName="OriginAirport" />
+                          <input type="hidden" name="OriginDestinationInformation[0].DestinationLocationCode"
+                            formControlName="DestinationLocationCode" />
+                          <input type="hidden" name="OriginDestinationInformation[0].DestinationLocation"
+                            formControlName="DestinationLocation" />
+                          <input type="hidden" name="OriginDestinationInformation[0].DestinationAirport"
+                            formControlName="DestinationAirport" />
+                          <input type="hidden" name="SequenceNumber" formControlName="SequenceNumber" />
+                          <input style="position: absolute;" (click)="setDestinationNull(i)" [customTypeahead]="data"
+                            [typeaheadSearchFields]="['Code', 'Value','Country','City']"
+                            [typeaheadItemTemplate]="typeaheadItemTemplate" isAnimated="true"
+                            typeaheadOptionField="City" [typeaheadScrollable]="true"
+                            [typeaheadOptionsInScrollableView]="4" (typeaheadOnSelect)="onSelectDestination($event,i)"
+                            class="form-control" formControlName="OriginCity" type="text" placeholder="Flying From">
+                          <p class="code" style="
+                         position: relative;
+                         color: #d5d5d5;
+                         top: 33px;
+                         font-size: 12px;">
+                            <span class="truncate airPortName">{{destinationFlight.Code}},
+                              {{destinationFlight.Value}}</span>
+                          </p>
+                        </div>
+                        <!--typeaheadOptionField="Value"-->
+                      </div>
+
+                      <span col-lg-1>
+                        <div style="position: relative;">
+                          <span><i (click)="swap(this.destinationFlight,this.arrivalFlight,i)" style=" z-index: 9999;
+                           color: #065af3;
+                           position: absolute;
+                           cursor: pointer;
+                           width: 0px;
+                           height: 0px;
+                           top: 16px;
+                           left: -14px;" class="flight icon-exchange"></i></span>
+
+                        </div>
+
+                      </span>
+                      <div class="col-lg-3 dsb-form-border">
+
+                        <div class="form-group">
+                          <label>To</label>
+                          <span *ngIf="validateDestinationCity(i)">
+                            <p style="color: red;font-size:7px;">please Fill up this field</p>
+                          </span>
+                          <span *ngIf="FromToNotSame(i)">
+                            <p style="color: red;font-size:7px;">From and To Airport can not be the same</p>
+                          </span>
+                          <input style="position: absolute;" [customTypeahead]="data"
+                            [typeaheadSearchFields]="['Code', 'Value','Country','City']"
+                            [typeaheadItemTemplate]="typeaheadItemTemplate" isAnimated="true"
+                            typeaheadOptionField="City" [typeaheadScrollable]="true"
+                            [typeaheadOptionsInScrollableView]="4" (typeaheadOnSelect)="onSelectArrival($event,i)"
+                            (click)="setArrivalNull(i)" class="form-control" type="text"
+                            formControlName="DestinationCity" placeholder="Flying To">
+                          <!-- <i class="icon_pin_alt"></i> -->
+                          <p class="code" style="
+                          position: relative;
+                          color: #d5d5d5;
+                          top: 33px;
+                          font-size: 12px;">
+                            <span class="truncate airPortName">{{arrivalFlight.Code}}, {{arrivalFlight.Value}}</span>
+                          </p>
+
+                        </div>
+
+                      </div>
+                      <div class="col-lg-2 dsb-form-border">
+                        <div class="form-group">
+                          <label>Departure</label>
+                          <input class="form-control" type="text" formControlName="DepartureDateTime"
+                            placeholder="{{today}}"
+                            > 
+                            
+                          <!-- bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY-MM-DD'T'HH:mm:ss'}" -->
+                        </div>
+                      </div>
+                      <div class="col-lg-3 dsb-form-border">
+                        <div class="form-group ">
+                          <label>Return</label>
+                          <p (click)="switchToReturn()" style="font-size: 12px;
+                            color: #9b9b9b;font-weight: 800;cursor:pointer;" *ngIf="searchForm.value.JourneyType==1">
+                            Tap to add a return date for bigger discounts</p>
+                          <input formControlName="ReturnDateTime"
+                            *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3"
+                            class="form-control dsb-input" type="text" placeholder="{{dayAfterTomorrow}}"
+                              >
+                          <!-- bsDatepicker [minDate]="minReturnDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
+                          <span *ngIf="searchForm.value.JourneyType==2"><i (click)="baktToOneWay()"
+                              class="flight icon-cancel returnCross" style="color: #ddd;"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flight_passengerBox col-lg-2">
+                  <div id="BE_flight_paxInfoBox" class="pax-details ddn-parent flight_passengerBox">
+                    <div class="panel-dropdown">
+                      <a href="#" style="color: #000;">TRAVELLERS & CLASS</a>
+                      <p id="traveller-summary" style="color: #000;padding-top: 3px;">1 Traveller,Economy</p>
+
+                      <div class="panel-dropdown-content">
+                        <div class="row" style="margin-bottom:10px;">
+                          <div class="col-7">
+                            <label class="t-spinner-label">Adult</label>
+                          </div>
+                          <div class="col-5 no-letf-padding">
+
+                            <input id="flt-people-adult" style="" class="t-spinner text-center" readonly="readonly"
+                              type="text" value="1" name="Adults" formControlName="Adults">
+                          </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px;">
+                          <div class="col-7">
+                            <label class="t-spinner-label">Child <span>2 - 12 yrs</span></label>
+                          </div>
+                          <div class="col-5 no-letf-padding">
+                            <input id="flt-people-child" class="t-spinner text-center" readonly="readonly" type="text"
+                              value="0" name="Children" formControlName="Children">
+                          </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px;">
+                          <div class="col-7">
+                            <label class="t-spinner-label">Infant <span>Below 2 yrs</span></label>
+                          </div>
+                          <div class="col-5 no-letf-padding">
+                            <input id="flt-people-infant" class="t-spinner text-center" readonly="readonly" type="text"
+                              value="0" name="Infants" formControlName="Infants">
+                          </div>
+                        </div>
+                        <hr style="margin: 0;" />
+                        <div class="row" style="margin-bottom:10px; margin-top:10px;">
+                          <div class="col-6">
+                            <div class="checkboxes float-left">
+                              <label class="container_check"
+                                style="color: #000;font-size: 1em;padding-top: 3px;font-weight: bold;">
+                                Economy
+                                <input type="radio" name="TravelClass" checked="checked" value="Economy"
+                                  data-txt="Economy" formControlName="TravelClass">
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="checkboxes float-left">
+                              <label class="container_check"
+                                style="color: #000;font-size: 1em;padding-top: 3px;font-weight: bold;">
+                                Business
+                                <input type="radio" name="TravelClass" value="Business" data-txt="Business"
+                                  formControlName="TravelClass">
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+
+            </div>
+
+
+
+
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <div class="dsb-search">
+                <input type="hidden" formControlName="PeopleTxt">
+                <input type="hidden" name="IsLocalSearch" formControlName="IsLocalSearch" />
+                <input type="hidden" name="SeatRequested" formControlName="SeatRequested" />
+                <input type="hidden" name="ProviderId" formControlName="ProviderId" />
+                <input type="hidden" name="Currency" formControlName="Currency" />
+                <input type="submit" class="btn primaryBtn font24 latoBlack widgetSearchBtn  widgetSearchBtnMultiCity"
+                  value="Search" />
+              </div>
+            </div>
+          </div>
+          <!-- /row -->
+        </form>
+
+
+
+
+
+      </div>
+    </div>
+  </section>
+  <!-- /hero_single -->
+
+  <div class="container-fluid margin_80_0">
+    <div class="main_title_2">
+      <span><em></em></span>
+      <h2>Popular Destination</h2>
+      <p>The Most Searched Countries in march</p>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <a href="hotel-detail.html" class="grid_item">
+          <figure>
+            <div class="score"><strong>8.9</strong></div>
+            <img src="assets/img/dublin.jpg" class="img-fluid" alt="">
+            <div class="info">
+              <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i
+                  class="icon_star"></i></div>
+              <h3>Mariott Hotel</h3>
+            </div>
+          </figure>
+        </a>
+      </div>
+
+      <div class="col-lg-6">
+        <a href="hotel-detail.html" class="grid_item">
+          <figure>
+            <div class="score"><strong>8.9</strong></div>
+            <img src="assets/img/dublin.jpg" class="img-fluid" alt="">
+            <div class="info">
+              <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i
+                  class="icon_star"></i></div>
+              <h3>Mariott Hotel</h3>
+            </div>
+          </figure>
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <a href="hotel-detail.html" class="grid_item">
+          <figure>
+            <div class="score"><strong>8.9</strong></div>
+            <img src="assets/img/reno.jpg" class="img-fluid" alt="">
+            <div class="info">
+              <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i
+                  class="icon_star"></i></div>
+              <h3>Mariott Hotel</h3>
+            </div>
+          </figure>
+        </a>
+      </div>
+
+      <div class="col-lg-4">
+        <a href="hotel-detail.html" class="grid_item">
+          <figure>
+            <div class="score"><strong>8.9</strong></div>
+            <img src="assets/img/reno.jpg" class="img-fluid" alt="">
+            <div class="info">
+              <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i
+                  class="icon_star"></i></div>
+              <h3>Mariott Hotel</h3>
+            </div>
+          </figure>
+        </a>
+      </div>
+      <div class="col-lg-4">
+        <a href="hotel-detail.html" class="grid_item">
+          <figure>
+            <div class="score"><strong>8.9</strong></div>
+            <img src="assets/img/reno.jpg" class="img-fluid" alt="">
+            <div class="info">
+              <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i
+                  class="icon_star"></i></div>
+              <h3>Mariott Hotel</h3>
+            </div>
+          </figure>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- /container -->
+
+
+  <!--/call_section-->
+</main>

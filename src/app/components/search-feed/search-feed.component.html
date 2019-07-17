@@ -1,0 +1,170 @@
+<style>
+  .dsb1 .dsb2 label {
+    color: #518DC6;
+  }
+</style>
+<div class="container-fluid dsb1" style="margin-top: 60px;background: #0B223C;">
+  <div class="row dsb2">
+    <div class=" row col-lg-3">
+      <div class="col-lg-6">
+        <label>Type Here</label>
+        <select [(ngModel)]="selectedValue" class="form-control" name="selectedValue">
+          <option *ngFor="let c of journeyTypes" [ngValue]="c.JourneyType">{{c.name}}</option>
+        </select>
+      </div>
+      <div class="col-lg-6">
+        <label>From</label>
+        <input type="text" class="form-control"
+          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].OriginCity}}" name="From">
+      </div>
+    </div>
+    <div class="row col-lg-7">
+      <div class="col-lg-1">
+        <div style="position: relative;">
+          <span><i (click)="swap(this.destinationFlight,this.arrivalFlight,i)" style=" z-index: 9999;
+               color: #065af3;
+               position: absolute;
+               cursor: pointer;
+               width: 0px;
+               height: 0px;
+               top: 38px;
+               left: 5px;" class="flight icon-exchange"></i></span>
+
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <label>To</label>
+        <input type="text" class="form-control"
+          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DestinationCity}}" name="To">
+      </div>
+      <div class="col-lg-3">
+        <label>Depart</label>
+        <input type="text" class="form-control"
+          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DepartureDateTime}}">
+      </div>
+      <div class="col-lg-3">
+        <label>Return</label>
+        <input type="text" class="form-control"
+          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].ReturnDateTime}}">
+      </div>
+      <div class="col-lg-3">
+        <label>Passengers & Class</label>
+        <input type="text" class="form-control" value="{{searchResult.Results.SearchRequest.PeopleTxt}}">
+      </div>
+    </div>
+    <div class="row col-lg-2">
+      <div class="col-lg-12">
+        <div style="margin-bottom: 31px;"></div>
+        <input type="button" class="btn btn-primary" value="Search">
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container" style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-lg-2" style="background: #518DC6;">
+      <label>Filter Search</label>
+    </div>
+    <div class="col-lg-1">
+
+    </div>
+    <div class="row col-lg-9" style="background: #518DC6;">
+      <div class="col-lg-3">
+        <label>Sort By:</label>
+      </div>
+      <div class="col-lg-2">
+        <label>Departure</label>
+      </div>
+      <div class="col-lg-2">
+        <label>Duration</label>
+      </div>
+      <div class="col-lg-2">
+        <label>Arrival</label>
+      </div>
+      <div class="col-lg-3">
+        <label>Price</label>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="container" style="margin-top: 25px; margin-bottom: 120px;">
+  <div class="row">
+    <div class="col-lg-2" style="background: #518DC6;">
+
+    </div>
+    <div class="col-lg-1">
+
+    </div>
+    
+      <div class="col-lg-9">
+     <ng-container *ngFor="let groupItinerary of searchResult.Results.AllGroupedIternaries; let i=index;">
+        <div class="row">
+          <div class="col-lg-6" style="background: #E5E5E5;">
+            <h4 style="float: left;">{{groupItinerary.AirlineName}}</h4>
+          </div>
+          <div class="col-lg-6" style="background: #E5E5E5;">
+            <button class="btn btn-primary" style="float: right;">Select</button>
+          </div>
+
+        </div>
+       <div class="row">
+        <ng-container
+        *ngFor="let itinerary of searchResult.Results.AllGroupedIternaries[i].GroupedOriginDestinationOptions; let j=index;">
+        <ng-container
+          *ngFor="let option of searchResult.Results.AllGroupedIternaries[i].GroupedOriginDestinationOptions[j].GroupedOriginDestinations">
+         
+            <div class="col-lg-3">
+              <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
+              <p>{{option.DepartureCity}}</p>
+            </div>
+            <div class="col-lg-3">
+              <p>{{option.JourneyDuration | myTime}}</p>
+              <hr />
+              <p style="color: #4B8AC8;">{{option.Stops}} Stop</p>
+            </div>
+            <div class="col-lg-3">
+              <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
+              <p>{{option.ArrivalCity}}</p>
+            </div>
+            <div class="col-lg-3">
+              <h5>{{groupItinerary.Currency}}{{groupItinerary.Price}}</h5>
+            </div>
+         
+
+        </ng-container>
+      </ng-container>
+       </div>
+
+
+       
+        <div class="row" style="border-top: 1px solid #ddd;">
+          <div class="col-lg-3">
+            <a><i class="flight icon-flight"></i> Itinerary</a>
+          </div>
+          <div class="col-lg-3">
+            <a><i class="flight icon-box"></i>Fare Details</a>
+          </div>
+          <div class="col-lg-3">
+            <a><i class="flight icon-tag-3"></i>Fare Rules</a>
+          </div>
+          <div class="col-lg-3">
+            <a><i class="flight icon-bag"></i>Baggage Info</a>
+          </div>
+
+        </div>
+      </ng-container>
+      </div>
+    
+  </div>
+
+</div>
