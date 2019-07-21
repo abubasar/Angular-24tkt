@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { LoaderService } from 'src/app/services/loader.service';
+
 declare var $: any;
 @Component({
   selector: 'app-main',
@@ -15,7 +15,14 @@ declare var $: any;
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  state$: Observable<object>;
+  //................BS Datepicker.............
+ 
+  displayMonths = 2;
+  navigation = 'none';
+  showWeekNumbers = false;
+  outsideDays = 'hidden';
+  //................BS Datepicker.............
+    state$: Observable<object>;
   flightInfo = {
     OriginDestinationInformation: [
       {
@@ -202,8 +209,16 @@ currentJustify = 'center';
 //..................Travellers Touchspin end....................
   searchRequest;
   searchFlight(){
-    
-    this.searchRequest=Object.assign({},this.searchForm.value)
+    this.searchRequest=Object.assign({},this.searchForm.value);
+    for (let i = 0; i < this.searchRequest.OriginDestinationInformation.length; i++) {
+      let ngbDate1= this.searchRequest.OriginDestinationInformation[i].DepartureDateTime;
+      let ngbDate2= this.searchRequest.OriginDestinationInformation[i].ReturnDateTime;
+      let fromDate =this.datePipe.transform( new Date(ngbDate1.year, ngbDate1.month-1, ngbDate1.day),"dd MMM yy"); 
+      let toDate=this.datePipe.transform( new Date(ngbDate2.year, ngbDate2.month-1, ngbDate2.day),"dd MMM yy");
+      this.searchRequest.OriginDestinationInformation[i].DepartureDateTime=fromDate;
+      this.searchRequest.OriginDestinationInformation[i].ReturnDateTime=toDate;
+    }
+   
     this.flightService.getSearchKey(this.searchRequest).subscribe(res=>{
       this.searchRequest.SearchId=res.SearchKey;
       console.log('success');
@@ -329,8 +344,8 @@ FromToNotSame(i){
             DestinationLocationCode: this.arrivalFlight.Code,
             OriginLocation: this.destinationFlight.City+' ('+this.destinationFlight.Code+')',
             DestinationLocation: this.arrivalFlight.City+' ('+this.arrivalFlight.Code+')',
-            DepartureDateTime:['2019-07-25T00:00:00'],
-            ReturnDateTime: ['2019-07-30T00:00:00'],
+            DepartureDateTime:[''],
+            ReturnDateTime: [{year:2019,month:7,day:21}],
             OriginCity:[this.destinationFlight.City,Validators.required],
             DestinationCity: [this.arrivalFlight.City,Validators.required],
             OriginAirport: this.destinationFlight.Value,

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {DatePipe} from '@angular/common';
 import {MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule } from '@angular/material';
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 
 
 import { AppComponent } from './app.component';
@@ -16,7 +17,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import {NgbModule, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -31,6 +32,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { NgbDateCustomParserFormatter } from './NgbDateCustomParserFormatter';
 
 
 
@@ -61,9 +63,9 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     CollapseModule.forRoot(),
     AppRoutingModule,
     MatProgressSpinnerModule,
-    MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule
-
-
+    MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,
+    NgbModule,
+    AngularMyDatePickerModule
   ],
   providers: [
     DatePipe,
@@ -74,7 +76,8 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
       multi:true
     },
     LoaderService,
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter}
   ],
   bootstrap: [AppComponent]
 })

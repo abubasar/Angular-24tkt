@@ -1,0 +1,126 @@
+.widgetSearchBtn {
+    width: 130px;
+    padding: 6px;
+    opacity: 1;
+    border-radius: 300px;
+  }
+  .dsb1 .dsb2 label {
+    color: #518DC6;
+  }
+  
+
+  .panel-dropdown {
+    padding: 0;
+    text-align:initial;
+    top: 25px;
+    }
+    .panel-dropdown a::after {  top: 0px;}
+    .panel-dropdown .panel-dropdown-content {top: 81px;
+        box-shadow: 3px 5px 22px rgba(0, 0, 0, 0.75);
+        padding-bottom: 0px;
+        height: 245px;
+        width: 323px; }
+    .spinner-btn {
+        background-color: #fff;
+        background-image: none;
+        border-radius: 0;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border: 1px solid #e6e4e4;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        padding: 5px 12px;
+    }
+    .t-spinner { border: 1px solid #ccc !important; padding: 5px 8px !important;}
+    .t-spinner-label {
+        margin-top: 10px;
+        color: rgba(0,0,0,.8);
+        font-weight: bold;
+    }
+        .t-spinner-label span {
+            font-size: .70em;
+            margin-left: 5px;
+            text-transform: uppercase;
+            font-weight: normal;
+        }
+    .no-letf-padding {padding-left: 0 !important; }
+    
+    .returnCross{
+        color: darkblue;
+        position: absolute;
+        top: 1px;
+        right: -13px;
+        z-index: 1;
+        cursor: pointer;
+        width: 19px;
+        height: 20px;
+        background-position: -145px -59px;
+        display: inline-block;
+        border-radius: 100%;
+    }
+    
+    
+    .dropdown-item.active, .dropdown-item:active {
+        color: #fff;
+        text-decoration: none;
+         background-color: #f1f1f1; 
+    }
+    
+    .dropdown-item:focus, .dropdown-item:hover {
+        color: #16181b;
+        text-decoration: none;
+        background-color: #f1f1f1;
+    }
+
+    .appendBottom5 {
+        margin-bottom: 5px;
+      }
+    
+    
+      .font14 {
+        font-size: 14px;
+        line-height: 14px;
+      }
+    
+      .blackText {
+        color: #000;
+      }
+    
+      .appendBottom3 {
+        margin-bottom: 3px;
+      }
+    
+    
+      .font12 {
+        font-size: 12px;
+        line-height: 12px;
+      }
+    
+      .greyText {
+        color: #9b9b9b;
+      }
+    
+      .makeFlex.hrtlCenter {
+        align-items: center;
+        display: flex;
+      }
+    
+      .calc60 {
+        width: calc(100% - 60px);
+      }
+    
+      .pushRight {
+        margin-left: auto;
+      }
+    
+      .latoBold {
+        font-weight: 700;
+      }
+
+      .bg-gray {
+        background-color: #f9f9f9;
+      }
+      .dsb-label-color{
+        color: #fff;
+      }
+
+  

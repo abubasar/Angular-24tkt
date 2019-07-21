@@ -1,152 +1,277 @@
-<style>
-  .dsb1 .dsb2 label {
-    color: #518DC6;
-  }
-</style>
-<div class="container-fluid dsb1" style="margin-top: 60px;background: #0B223C;">
-  <div class="row dsb2">
-    <div class=" row col-lg-3">
-      <div class="col-lg-6">
+<div class="container-fluid dsb1" style="margin-top: 79px;background: #0B223C;padding-bottom: 17px;">
+  <form [formGroup]="searchForm" (ngSubmit)="searchFlight()">
+    <div class="row dsb2">
+      <div class="col-lg-1">
         <label>Type Here</label>
-        <select [(ngModel)]="selectedValue" class="form-control" name="selectedValue">
+        <select class="form-control" formControlName="JourneyType">
           <option *ngFor="let c of journeyTypes" [ngValue]="c.JourneyType">{{c.name}}</option>
         </select>
       </div>
-      <div class="col-lg-6">
-        <label>From</label>
-        <input type="text" class="form-control"
-          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].OriginCity}}" name="From">
-      </div>
-    </div>
-    <div class="row col-lg-7">
-      <div class="col-lg-1">
-        <div style="position: relative;">
-          <span><i (click)="swap(this.destinationFlight,this.arrivalFlight,i)" style=" z-index: 9999;
-               color: #065af3;
-               position: absolute;
-               cursor: pointer;
-               width: 0px;
-               height: 0px;
-               top: 38px;
-               left: 5px;" class="flight icon-exchange"></i></span>
+      <div formArrayName="OriginDestinationInformation" class="col-lg-7">
+        <ng-container *ngFor="let mySearchForm of searchForm.get('OriginDestinationInformation').controls; let i=index">
+          <div [formGroupName]="i" class="row">
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label>From</label>
+                <span *ngIf="validateOriginCity(i)">
+                  <p style="color: red;font-size:7px;">please Fill up this field</p>
+                </span>
+                <ng-template #typeaheadItemTemplate let-model="item">
+                  <div class="makeFlex hrtlCenter">
+                    <div class="calc60">
+                      <p class="font14 appendBottom5 blackText">{{model.City}}, {{model.Country}}</p>
+                      <p class="font12 greyText appendBottom3"> {{model.Value}}</p>
+                    </div>
+                    <div class="pushRight font14 lightGreyText latoBold">{{model.Code}}</div>
+                  </div>
+                </ng-template>
+                <input type="hidden" formControlName="OriginLocationCode" />
+                <input type="hidden" formControlName="OriginLocation" />
+                <input type="hidden" formControlName="OriginAirport" />
+                <input type="hidden" formControlName="DestinationLocationCode" />
+                <input type="hidden" formControlName="DestinationLocation" />
+                <input type="hidden" formControlName="DestinationAirport" />
+                <input type="hidden" formControlName="SequenceNumber" />
 
-        </div>
-      </div>
-      <div class="col-lg-2">
-        <label>To</label>
-        <input type="text" class="form-control"
-          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DestinationCity}}" name="To">
-      </div>
-      <div class="col-lg-3">
-        <label>Depart</label>
-        <input type="text" class="form-control"
-          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DepartureDateTime}}">
-      </div>
-      <div class="col-lg-3">
-        <label>Return</label>
-        <input type="text" class="form-control"
-          value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].ReturnDateTime}}">
-      </div>
-      <div class="col-lg-3">
-        <label>Passengers & Class</label>
-        <input type="text" class="form-control" value="{{searchResult.Results.SearchRequest.PeopleTxt}}">
-      </div>
-    </div>
-    <div class="row col-lg-2">
-      <div class="col-lg-12">
-        <div style="margin-bottom: 31px;"></div>
-        <input type="button" class="btn btn-primary" value="Search">
+                <input (click)="setDestinationNull(i)" [customTypeahead]="data"
+                  [typeaheadSearchFields]="['Code', 'Value','Country','City']"
+                  [typeaheadItemTemplate]="typeaheadItemTemplate" isAnimated="true" typeaheadOptionField="City"
+                  [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="4"
+                  (typeaheadOnSelect)="onSelectDestination($event,i)" type="text" class="form-control"
+                  formControlName="OriginCity"
+                  value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].OriginCity}}" name="From">
+              </div>
+            </div>
+            <div class="col-lg-1">
+              <div style="position: relative;">
+                <span><i (click)="swap(this.destinationFlight,this.arrivalFlight,i)" style=" z-index: 9999;
+                      color: #065af3;
+                      position: absolute;
+                      cursor: pointer;
+                      width: 0px;
+                      height: 0px;
+                      top: 38px;
+                      left: 5px;" class="flight icon-exchange"></i></span>
 
+              </div>
+            </div>
 
-      </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label>To</label>
+                <span *ngIf="validateDestinationCity(i)">
+                  <p style="color: red;font-size:7px;">please Fill up this field</p>
+                </span>
+                <span *ngIf="FromToNotSame(i)">
+                  <p style="color: red;font-size:7px;">From and To Airport can not be the same</p>
+                </span>
+                <input [customTypeahead]="data" [typeaheadSearchFields]="['Code', 'Value','Country','City']"
+                  [typeaheadItemTemplate]="typeaheadItemTemplate" isAnimated="true" typeaheadOptionField="City"
+                  [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="4"
+                  (typeaheadOnSelect)="onSelectArrival($event,i)" (click)="setArrivalNull(i)" type="text"
+                  class="form-control" formControlName="DestinationCity"
+                  value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DestinationCity}}"
+                  name="To">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label>Depart</label>
+                <input (click)="d.toggle()" formControlName="DepartureDateTime" [displayMonths]="displayMonths"
+                  [navigation]="navigation" [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers"
+                  ngbDatepicker #d="ngbDatepicker" type="text" class="form-control"
+                  value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].DepartureDateTime}}">
+              </div>
+            </div>
 
-    </div>
-  </div>
-</div>
-
-
-
-<div class="container" style="margin-top: 25px;">
-  <div class="row">
-    <div class="col-lg-2" style="background: #518DC6;">
-      <label>Filter Search</label>
-    </div>
-    <div class="col-lg-1">
-
-    </div>
-    <div class="row col-lg-9" style="background: #518DC6;">
-      <div class="col-lg-3">
-        <label>Sort By:</label>
-      </div>
-      <div class="col-lg-2">
-        <label>Departure</label>
-      </div>
-      <div class="col-lg-2">
-        <label>Duration</label>
-      </div>
-      <div class="col-lg-2">
-        <label>Arrival</label>
-      </div>
-      <div class="col-lg-3">
-        <label>Price</label>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-
-<div class="container" style="margin-top: 25px; margin-bottom: 120px;">
-  <div class="row">
-    <div class="col-lg-2" style="background: #518DC6;">
-
-    </div>
-    <div class="col-lg-1">
-
-    </div>
-    
-      <div class="col-lg-9">
-     <ng-container *ngFor="let groupItinerary of searchResult.Results.AllGroupedIternaries; let i=index;">
-        <div class="row">
-          <div class="col-lg-6" style="background: #E5E5E5;">
-            <h4 style="float: left;">{{groupItinerary.AirlineName}}</h4>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label>Return</label>
+                <input *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3"
+                  class="form-control dsb-input" (click)="d.toggle()" type="text" formControlName="ReturnDateTime"
+                  class="form-control" [displayMonths]="displayMonths" [navigation]="navigation"
+                  [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers" ngbDatepicker #d="ngbDatepicker"
+                  value="{{searchResult.Results.SearchRequest.OriginDestinationInformation[0].ReturnDateTime}}">
+              </div>
+            </div>
           </div>
-          <div class="col-lg-6" style="background: #E5E5E5;">
-            <button class="btn btn-primary" style="float: right;">Select</button>
-          </div>
-
-        </div>
-       <div class="row">
-        <ng-container
-        *ngFor="let itinerary of searchResult.Results.AllGroupedIternaries[i].GroupedOriginDestinationOptions; let j=index;">
-        <ng-container
-          *ngFor="let option of searchResult.Results.AllGroupedIternaries[i].GroupedOriginDestinationOptions[j].GroupedOriginDestinations">
-         
-            <div class="col-lg-3">
-              <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
-              <p>{{option.DepartureCity}}</p>
-            </div>
-            <div class="col-lg-3">
-              <p>{{option.JourneyDuration | myTime}}</p>
-              <hr />
-              <p style="color: #4B8AC8;">{{option.Stops}} Stop</p>
-            </div>
-            <div class="col-lg-3">
-              <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
-              <p>{{option.ArrivalCity}}</p>
-            </div>
-            <div class="col-lg-3">
-              <h5>{{groupItinerary.Currency}}{{groupItinerary.Price}}</h5>
-            </div>
-         
-
         </ng-container>
-      </ng-container>
-       </div>
+      </div>
+
+      <div class="row col-lg-4">
+
+        <div class="flight_passengerBox col-lg-6">
+          <div id="BE_flight_paxInfoBox" class="pax-details ddn-parent flight_passengerBox">
+
+            <div class="panel-dropdown">
+              <a href="#" style="color: #518DC6;">TRAVELLERS & CLASS</a>
+              <p id="traveller-summary" style="color: #fff;padding-top: 3px;">1 Traveller,Economy</p>
+
+              <div class="panel-dropdown-content">
+                <div class="row" style="margin-bottom:10px;">
+                  <div class="col-7">
+                    <label class="t-spinner-label">Adult</label>
+                  </div>
+                  <div class="col-5 no-letf-padding">
+
+                    <input id="flt-people-adult" style="" class="t-spinner text-center" readonly="readonly" type="text"
+                      value="1" name="Adults" formControlName="Adults">
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom:10px;">
+                  <div class="col-7">
+                    <label class="t-spinner-label">Child <span>2 - 12 yrs</span></label>
+                  </div>
+                  <div class="col-5 no-letf-padding">
+                    <input id="flt-people-child" class="t-spinner text-center" readonly="readonly" type="text" value="0"
+                      name="Children" formControlName="Children">
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom:10px;">
+                  <div class="col-7">
+                    <label class="t-spinner-label">Infant <span>Below 2 yrs</span></label>
+                  </div>
+                  <div class="col-5 no-letf-padding">
+                    <input id="flt-people-infant" class="t-spinner text-center" readonly="readonly" type="text"
+                      value="0" name="Infants" formControlName="Infants">
+                  </div>
+                </div>
+                <hr style="margin: 0;" />
+                <div class="row" style="margin-bottom:10px; margin-top:10px;">
+                  <div class="col-6">
+                    <div class="checkboxes float-left">
+                      <label class="container_check"
+                        style="color: #000;font-size: 1em;padding-top: 3px;font-weight: bold;">
+                        Economy
+                        <input type="radio" name="TravelClass" checked="checked" value="Economy" data-txt="Economy"
+                          formControlName="TravelClass">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="checkboxes float-left">
+                      <label class="container_check"
+                        style="color: #000;font-size: 1em;padding-top: 3px;font-weight: bold;">
+                        Business
+                        <input type="radio" name="TravelClass" value="Business" data-txt="Business"
+                          formControlName="TravelClass">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div style="margin-bottom: 31px;"></div>
+          <input type="submit" class="btn btn-primary  widgetSearchBtn" value="SEARCH">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
 
 
-       
+
+<div class="container" style="margin-top: 25px;margin-top: 25px; margin-bottom: 120px;">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="row">
+        <div class="col-lg-12" style="background: #518DC6;">
+          <label class="dsb-label-color">Filter Search</label>
+          
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+            <h2 class="my-4">Airlines</h2>
+            <div *ngFor="let group of uniqueAirlines" class="list-group">
+             
+            <a style="cursor: pointer;" (click)="searchByAirline(group.name)" class="list-group-item">{{group.name}}</a>
+        </div>
+         
+         
+          </div>
+      </div>
+
+    </div>
+    <div class="col-lg-1">
+
+    </div>
+
+    <div class="col-lg-8">
+      <div class="row" style="background: #518DC6;">
+        <div class="col-lg-2">
+          <label class="dsb-label-color">Sort By:</label>
+        </div>
+        <div class="col-lg-3">
+          <label class="dsb-label-color">Departure</label>
+        </div>
+        <div class="col-lg-2">
+          <label class="dsb-label-color">Duration</label>
+        </div>
+        <div class="col-lg-2">
+          <label class="dsb-label-color">Arrival</label>
+        </div>
+        <div class="col-lg-3">
+          <label class="dsb-label-color">Price</label>
+        </div>
+      </div>
+      <ng-container *ngFor="let groupItinerary of searchResult.Results.AllGroupedIternaries; let i=index;">
+
+        <div class="row" style="padding-top: 30px;">
+          <div class="row col-lg-6" style="background: #E5E5E5;padding-left: 0px;">
+            <div class="col-lg-2" style="padding-left: 0px;"> <img style="width: 44px;height:44px;"
+                src="http://airlines.a4aero.com/images/{{groupItinerary.AirlineCode}}.png"></div>
+            <div class="col-lg-10"><b>
+                <p style="text-align: left;font-size: 20px;">{{groupItinerary.AirlineName}}</p>
+              </b></div>
+
+
+          </div>
+          <div class="col-lg-4" style="background: #E5E5E5;">
+            <h5 style="float: right;">{{groupItinerary.Currency}}{{groupItinerary.Price}}</h5>
+          </div>
+          <div class="col-lg-2" style="background: #E5E5E5;padding-right: 0px">
+            <button class="btn btn-primary widgetSearchBtn" style="float: right;padding-bottom: 13px;">BOOK NOW</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <ng-container
+            *ngFor="let itinerary of searchResult.Results.AllGroupedIternaries[i].GroupedOriginDestinationOptions; let j=index;">
+            <ng-container
+              *ngFor="let option of searchResult.Results.AllGroupedIternaries[i].GroupedOriginDestinationOptions[j].GroupedOriginDestinations">
+              <div [ngClass]="{'bg-gray':itinerary.Id==0}" class="row col-lg-12">
+                <span class="col-lg-2"><input type="radio" name="{{itinerary.Id}}" value="{{option.Id}}" checked></span>
+                <div class="col-lg-3">
+                  <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
+                  <p>{{option.DepartureCity}}</p>
+                </div>
+                <div class="col-lg-4">
+                  <p style="text-align: center">{{option.JourneyDuration | myTime}}</p>
+                  <hr />
+                  <p style="color: #4B8AC8; text-align: center">{{option.Stops}} Stop</p>
+                </div>
+                <div class="col-lg-3">
+                  <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
+                  <p>{{option.ArrivalCity}}</p>
+                </div>
+              </div>
+
+
+
+
+            </ng-container>
+          </ng-container>
+        </div>
+
+
+
         <div class="row" style="border-top: 1px solid #ddd;">
           <div class="col-lg-3">
             <a><i class="flight icon-flight"></i> Itinerary</a>
@@ -163,8 +288,8 @@
 
         </div>
       </ng-container>
-      </div>
-    
+    </div>
+
   </div>
 
 </div>

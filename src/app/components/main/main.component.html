@@ -5,9 +5,10 @@
     display: block;
     margin-left: 15px;
   }
-
+  
   .hero_single.version_2:before {
-    background: url(assets/img/bg.png) center center no-repeat;
+    content: " ";
+    background: url(assets/img/bg.png) center center no-repeat!important;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -376,11 +377,11 @@
                       <div class="col-lg-2 dsb-form-border">
                         <div class="form-group">
                           <label>Departure</label>
-                          <input class="form-control" type="text" formControlName="DepartureDateTime"
-                            placeholder="{{today}}"
-                            > 
-                            
-                          <!-- bsDatepicker [minDate]="minJourneyDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'YYYY-MM-DD'T'HH:mm:ss'}" -->
+
+                          <input (click)="d.toggle()" type="text" formControlName="DepartureDateTime"
+                            class="form-control" [displayMonths]="displayMonths" [navigation]="navigation"
+                            [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers" ngbDatepicker
+                            #d="ngbDatepicker" placeholder="{{today}}">
                         </div>
                       </div>
                       <div class="col-lg-3 dsb-form-border">
@@ -389,10 +390,11 @@
                           <p (click)="switchToReturn()" style="font-size: 12px;
                             color: #9b9b9b;font-weight: 800;cursor:pointer;" *ngIf="searchForm.value.JourneyType==1">
                             Tap to add a return date for bigger discounts</p>
-                          <input formControlName="ReturnDateTime"
-                            *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3"
-                            class="form-control dsb-input" type="text" placeholder="{{dayAfterTomorrow}}"
-                              >
+                          <input *ngIf="searchForm.value.JourneyType==2||searchForm.value.JourneyType==3"
+                            class="form-control dsb-input" (click)="d.toggle()" type="text"
+                            formControlName="ReturnDateTime" class="form-control" [displayMonths]="displayMonths"
+                            [navigation]="navigation" [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers"
+                            ngbDatepicker #d="ngbDatepicker" placeholder="{{dayAfterTomorrow}}">
                           <!-- bsDatepicker [minDate]="minReturnDate" [bsConfig]="{ isAnimated: true,dateInputFormat: 'Do MMM YYYY'}" -->
                           <span *ngIf="searchForm.value.JourneyType==2"><i (click)="baktToOneWay()"
                               class="flight icon-cancel returnCross" style="color: #ddd;"></i></span>
