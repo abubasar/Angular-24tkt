@@ -397,4 +397,18 @@ FromToNotSame(i){
             return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
         });
     }
+   
+    selectedDestination:any
+    selectedReturn:any
+    radioChangeHandler1(){
+    
+    console.log(this.selectedDestination);
+  
+    }
+
+    radioChangeHandler2(){
+    
+      console.log(this.selectedReturn);
+    
+      }
 }
