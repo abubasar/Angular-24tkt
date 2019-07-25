@@ -15,9 +15,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {NgbModule, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -60,12 +60,12 @@ import { NgbDateCustomParserFormatter } from './NgbDateCustomParserFormatter';
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
-    CollapseModule.forRoot(),
     AppRoutingModule,
     MatProgressSpinnerModule,
     MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,
     NgbModule,
-    AngularMyDatePickerModule
+    AngularMyDatePickerModule,
+    MDBBootstrapModule.forRoot(),
   ],
   providers: [
     DatePipe,

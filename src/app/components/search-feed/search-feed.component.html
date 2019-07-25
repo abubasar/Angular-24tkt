@@ -243,67 +243,111 @@
         </div>
         <div class="row">
           <ng-container
-            *ngFor="let itinerary of searchResult.Results.AllGroupedIternaries[i].PricedIternaries; let j=index;">
-          
-              
-              <div class="row col-lg-12">
-                <span class="radio col-lg-2"><input type="radio" name="selectedDestination" [(ngModel)]="selectedDestination" [value]="itinerary.OriginDestinationOptions[0]" (change)="radioChangeHandler1()"></span>
+            *ngFor="let option of groupItinerary.GroupedOriginDestinationOptions[0].GroupedOriginDestinations; let j=index;">
+              <div class="row col-lg-12" *ngIf="j==0">
+                <span class="radio col-lg-2"><input type="radio" name="selectedDestination" [(ngModel)]="selectedDestination" [value]="option" (change)="radioChangeHandler1()"></span>
                 
                 <div class="col-lg-3">
-                  <h3>{{itinerary.OriginDestinationOptions[0].Takeoff | date:'HH:mm'}}</h3>
-                  <p>{{itinerary.OriginDestinationOptions[0].Flights[0].DepartureCity}}</p>
-                  <p>{{searchResult.Results.AllGroupedIternaries[i].PricedIternaries.length}}</p>
+                  <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
+                  <p>{{option.DepartureCity}}</p>
+                
                 </div>
                 <div class="col-lg-4">
-                  <p style="text-align: center">{{itinerary.OriginDestinationOptions[0].TotalJourneyTime | myTime}}</p>
+                  <p style="text-align: center">{{option.JourneyDuration | myTime}}</p>
                   <hr />
-                  <p style="color: #4B8AC8; text-align: center">{{itinerary.OriginDestinationOptions[0].TotalStops}} Stop<span *ngIf="itinerary.OriginDestinationOptions[0].Flights.length > 1">,via {{itinerary.OriginDestinationOptions[0].Flights[0].ArrivalCity}}</span></p>
+                  <p style="color: #4B8AC8; text-align: center">{{option.Stops}} Stop</p>
                 </div>
                 <div class="col-lg-3">
-                  <h3>{{itinerary.OriginDestinationOptions[0].Arrival | date:'HH:mm'}}</h3>
-                  <p>{{itinerary.OriginDestinationOptions[0].Flights[itinerary.OriginDestinationOptions[0].Flights.length-1].ArrivalCity}}</p>
+                  <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
+                  <p>{{option.ArrivalCity}}</p>
                 </div>
               </div>
-            </ng-container>
+              <div class="col-lg-12" *ngIf="show==groupItinerary.GroupId">
+                <div *ngIf="j>=1" class="row">
+                    <span class="radio col-lg-2"><input type="radio" name="selectedDestination" [(ngModel)]="selectedDestination" [value]="option" (change)="radioChangeHandler1()"></span>
+                
+                    <div class="col-lg-3">
+                      <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
+                      <p>{{option.DepartureCity}}</p>
+                    
+                    </div>
+                    <div class="col-lg-4">
+                      <p style="text-align: center">{{option.JourneyDuration | myTime}}</p>
+                      <hr />
+                      <p style="color: #4B8AC8; text-align: center">{{option.Stops}} Stop</p>
+                    </div>
+                    <div class="col-lg-3">
+                      <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
+                      <p>{{option.ArrivalCity}}</p>
+                    </div>
+                </div>
+               
+              </div>
+          </ng-container>
+           
+            <p><a *ngIf="groupItinerary.GroupedOriginDestinationOptions[0].GroupedOriginDestinations.length>2" (click)="loadMore(groupItinerary.GroupId)" class="view-more-btn">More Timing Options</a></p>
+            <ng-container *ngIf="searchResult.Results.SearchRequest.JourneyType==2">
             <ng-container
-            *ngFor="let itinerary of searchResult.Results.AllGroupedIternaries[i].PricedIternaries; let j=index;">
-              <div *ngIf="searchResult.Results.SearchRequest.JourneyType==2" class="row col-lg-12" style="background: #f9f9f9;">
-                <span class="col-lg-2"><input type="radio" name="selectedReturn" [(ngModel)]="selectedReturn" [value]="itinerary.OriginDestinationOptions[1]" (change)="radioChangeHandler2()"></span>
+            *ngFor="let option of groupItinerary.GroupedOriginDestinationOptions[1].GroupedOriginDestinations; let j=index;">
+              <div *ngIf="searchResult.Results.SearchRequest.JourneyType==2 && j==0" class="row col-lg-12" style="background: #f9f9f9;">
+                  <span class="radio col-lg-2"><input type="radio" name="selectedReturn" [(ngModel)]="selectedReturn" [value]="option" (change)="radioChangeHandler2()"></span>
                 
-                <div class="col-lg-3">
-                  <h3>{{itinerary.OriginDestinationOptions[1].Takeoff | date:'HH:mm'}}</h3>
-                  <p>{{itinerary.OriginDestinationOptions[1].Flights[0].DepartureCity}}</p>
-                </div>
-                <div class="col-lg-4">
-                  <p style="text-align: center">{{itinerary.OriginDestinationOptions[1].TotalJourneyTime | myTime}}</p>
-                  <hr />
-                  <p style="color: #4B8AC8; text-align: center">{{itinerary.OriginDestinationOptions[1].TotalStops}} Stop<span *ngIf="itinerary.OriginDestinationOptions[1].Flights.length > 1">,via {{itinerary.OriginDestinationOptions[1].Flights[0].ArrivalCity}}</span></p>
-                </div>
-                <div class="col-lg-3">
-                  <h3>{{itinerary.OriginDestinationOptions[1].Arrival | date:'HH:mm'}}</h3>
-                  <p>{{itinerary.OriginDestinationOptions[1].Flights[itinerary.OriginDestinationOptions[1].Flights.length-1].ArrivalCity}}</p>
-                </div>
+                  <div class="col-lg-3">
+                    <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
+                    <p>{{option.DepartureCity}}</p>
+                  
+                  </div>
+                  <div class="col-lg-4">
+                    <p style="text-align: center">{{option.JourneyDuration | myTime}}</p>
+                    <hr />
+                    <p style="color: #4B8AC8; text-align: center">{{option.Stops}} Stop</p>
+                  </div>
+                  <div class="col-lg-3">
+                    <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
+                    <p>{{option.ArrivalCity}}</p>
+                  </div>
               </div>
-
-
+              <div class="col-lg-12" *ngIf="show==groupItinerary.GroupId">
+              <div *ngIf="searchResult.Results.SearchRequest.JourneyType==2 && j>=1" class="row" style="background: #f9f9f9;">
+                  <span class="radio col-lg-2"><input type="radio" name="selectedReturn" [(ngModel)]="selectedReturn" [value]="option" (change)="radioChangeHandler2()"></span>
+                
+                  <div class="col-lg-3">
+                    <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
+                    <p>{{option.DepartureCity}}</p>
+                  
+                  </div>
+                  <div class="col-lg-4">
+                    <p style="text-align: center">{{option.JourneyDuration | myTime}}</p>
+                    <hr />
+                    <p style="color: #4B8AC8; text-align: center">{{option.Stops}} Stop</p>
+                  </div>
+                  <div class="col-lg-3">
+                    <h3>{{option.ArrivalDate | date:'HH:mm'}}</h3>
+                    <p>{{option.ArrivalCity}}</p>
+                  </div>
+              </div>
+              </div>
             </ng-container>
-         
-        </div>
+            </ng-container>
+            <p *ngIf="searchResult.Results.SearchRequest.JourneyType==2"><a *ngIf="groupItinerary.GroupedOriginDestinationOptions[1].GroupedOriginDestinations.length>2" (click)="loadMore(groupItinerary.GroupId)" class="view-more-btn">More Timing Options</a></p>
+
+        
+          </div>
 
 
 
         <div class="row" style="border-top: 1px solid #ddd;">
           <div class="col-lg-3">
-            <a><i class="flight icon-flight"></i> Itinerary</a>
+            <button class="btn btn-default"><i class="flight icon-flight"></i> Itinerary</button>
           </div>
           <div class="col-lg-3">
-            <a><i class="flight icon-box"></i>Fare Details</a>
+            <button class="btn btn-default"><i class="flight icon-box"></i>Fare Details</button>
           </div>
           <div class="col-lg-3">
-            <a><i class="flight icon-tag-3"></i>Fare Rules</a>
+            <button class="btn btn-default"><i class="flight icon-tag-3"></i>Fare Rules</button>
           </div>
           <div class="col-lg-3">
-            <a><i class="flight icon-bag"></i>Baggage Info</a>
+            <button class="btn btn-default"><i class="flight icon-bag"></i>Baggage Info</button>
           </div>
 
         </div>

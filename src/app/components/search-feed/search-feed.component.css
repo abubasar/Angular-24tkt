@@ -123,4 +123,11 @@
         color: #fff;
       }
 
-  
+      .view-more-btn {
+        display: inline-block;
+        margin-left: 24px;
+        font-size: 11px;
+        background: #9b9b9b;
+        cursor: pointer;
+        border-radius: 400px;
+    }
