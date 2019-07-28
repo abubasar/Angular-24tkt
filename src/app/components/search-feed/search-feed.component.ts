@@ -4,9 +4,10 @@ import { DatePipe } from '@angular/common';
 import { FlightService } from 'src/app/services/flight.service';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
 import { Observable} from 'rxjs';
-
+import {coerceNumberProperty} from '@angular/cdk/coercion';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { Options, LabelType, ChangeContext } from 'ng5-slider';
 
 declare var $: any;
 @Component({
@@ -15,6 +16,9 @@ declare var $: any;
   styleUrls: ['./search-feed.component.css']
 })
 export class SearchFeedComponent implements OnInit {
+lowest = Number.POSITIVE_INFINITY;
+highest = Number.NEGATIVE_INFINITY;
+
 state$: Observable<any>;
 searchResult:any;
 uniqueAirlines=[
@@ -76,14 +80,23 @@ uniqueAirlines=[
   
   ngOnInit() {
 
+    
     //...............search feed..........
     this.state$ = this.route.paramMap.pipe(
       map(() => window.history.state)
     );
     this.state$.subscribe(data=>{
-    this.searchResult=data.data.res;
-    console.log(this.searchResult);
-    })
+    let items=data.data.res;
+    localStorage.setItem('searchResult',JSON.stringify(items));
+   
+   if (localStorage.getItem('searchResult')) {
+   this.searchResult =JSON.parse(localStorage.getItem('searchResult'));
+             } else {
+        this.searchResult = []
+         }
+       console.log(this.searchResult);
+        })
+        this.searchResult=JSON.parse(localStorage.getItem('searchResult'));
 //.............search feed...............    
    
 
@@ -104,6 +117,20 @@ uniqueAirlines=[
     })
    this.setOriginDestinationInformation()
     this.getFlights();
+
+
+    //slider......................
+    for (let i=this.searchResult.Results.AllGroupedIternaries.length-1; i>=0; i--) {
+      let tmp = this.searchResult.Results.AllGroupedIternaries[i].Price;
+      if (tmp < this.options.floor) this.options.floor = tmp;
+      if (tmp > this.options.ceil) this.options.ceil = tmp;
+    }
+  this.minValue=this.options.floor;
+  this.maxValue=this.options.ceil;
+
+  
+    //slider..........................
+
 //...................Travellers Touchspin.....................
     $(document).ready(()=>{
     
@@ -247,21 +274,18 @@ uniqueAirlines=[
       console.log(error,'something went Wrong');
     },()=>{
       this.flightService.searchFlights(this.searchRequest).subscribe(res=>{
-       
-      //  this.uniqueAirlines= this.removeDuplicates(res.Results.AllGroupedIternaries,"AirlineName");
-      //  console.log(this.uniqueAirlines);
-       this.searchResult=res;
-        // const map = new Map();
-        // for (const item of res.Results.AllGroupedIternaries) {
-        //   if(!map.has(item.AirlineName)){
-        //       map.set(item.AirlineName, true);    // set any value to Map
-        //       this.uniqueAirlines.push({
-                 
-        //           name: item.AirlineName
-        //       });
-        //       alert(this.uniqueAirlines)
-        //   }
-        // }
+        localStorage.removeItem('searchResult');
+        localStorage.setItem('searchResult',JSON.stringify(res));
+     
+        if(localStorage.getItem('searchResult')){
+         this.searchResult = JSON.parse(localStorage.getItem('searchResult'))
+      }else{
+          this.searchResult=[];
+      }
+      //this.searchResult=res;
+      // console.log(this.searchResult);
+
+
        },error=>{
          console.log(error,'error');
        })
@@ -398,24 +422,73 @@ FromToNotSame(i){
         });
     }
    
-    selectedDestination:any
-    selectedReturn:any
-    radioChangeHandler1(){
-    
-    console.log(this.selectedDestination);
+    selectedDestinationId:any
+    selectedReturnId:any
+    radioChangeHandler1(e:any){
+    this.selectedDestinationId=e.target.value;
+    console.log(this.selectedDestinationId);
   
     }
   
-    radioChangeHandler2(){
-    
-      console.log(this.selectedReturn);
+    radioChangeHandler2(e:any){
+      this.selectedReturnId=e.target.value;
+      console.log(this.selectedReturnId);
     
       }
+
+      pricedItinerary?:any
+      selectPricedItinerary(i){
+     this.pricedItinerary=this.searchResult.Results.AllGroupedIternaries[i].PricedIternaries.filter(x=>x.Id==this.selectedDestinationId+','+this.selectedReturnId)[0];
+      console.log(this.pricedItinerary);
+    }
       show;
       loadMore(key):boolean{
         this.show=key;
+        
         return !!this.show;
         
       }
       
+    //   getIds(){
+    //     this.searchResult.Results.AllGroupedIternaries.forEach(item=>{
+    //           let id=item.PricedIternaries[0].Id;
+    //           let myArr:any[]= id.split(',');
+    //           this.selectedDestinationId=myArr[0];
+    //           this.selectedReturnId=myArr[1];
+    //     })
+     
+    //  }
+
+    //.....................Slider.................
+  minValue: number = 100;
+  maxValue: number = 400;
+  options: Options = {
+    floor:0,
+    ceil: 500,
+    translate: (value: number, label: LabelType): string => {
+      switch (label) {
+        case LabelType.Low:
+          return '' + value;
+        case LabelType.High:
+          return '' + value;
+        default:
+          return '' + value;
+      }
+    }
+  };
+
+
+  myfunc(){
+    this.searchResult.Results.AllGroupedIternaries = this.searchResult.Results.AllGroupedIternaries.filter((item: any) =>
+    item.Price >= this.minValue && item.Price <= this.maxValue
+);
+  }
+
+  onUserChange(changeContext: ChangeContext): void {
+    this.searchResult.Results.AllGroupedIternaries = this.searchResult.Results.AllGroupedIternaries.filter((item: any) =>
+    item.Price >= changeContext.value && item.Price <= changeContext.highValue);
+    console.log(changeContext.value,changeContext.highValue);
+  }
+    //.....................Slider................
+     
 }

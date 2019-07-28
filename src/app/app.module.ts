@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {DatePipe} from '@angular/common';
-import {MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule } from '@angular/material';
+import {MatCardModule, MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule } from '@angular/material';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
+import { Ng5SliderModule } from 'ng5-slider';
 
 
 import { AppComponent } from './app.component';
@@ -33,6 +34,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { NgbDateCustomParserFormatter } from './NgbDateCustomParserFormatter';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 
 
@@ -62,10 +64,12 @@ import { NgbDateCustomParserFormatter } from './NgbDateCustomParserFormatter';
     TypeaheadModule.forRoot(),
     AppRoutingModule,
     MatProgressSpinnerModule,
-    MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,
+    MatCardModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule,
     NgbModule,
+    Ng5SliderModule,
     AngularMyDatePickerModule,
     MDBBootstrapModule.forRoot(),
+    AccordionModule.forRoot(),
   ],
   providers: [
     DatePipe,

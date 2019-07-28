@@ -125,9 +125,30 @@
 
       .view-more-btn {
         display: inline-block;
-        margin-left: 24px;
+        margin-left: 345px;
         font-size: 11px;
-        background: #9b9b9b;
+        background: #0B82C6;
         cursor: pointer;
         border-radius: 400px;
     }
+
+    .radioSelect{
+      width: 15px;
+      height: 15px;
+  
+    }
+    .example-margin {
+      margin: 10px;
+    }
+
+    .example-h2 {
+      margin: 10px;
+    }
+
+    .result{
+      width: 188px;
+    height: 153px;
+    margin-left: -14px;
+    }
+    
+    

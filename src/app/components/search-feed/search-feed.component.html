@@ -188,13 +188,23 @@
       </div>
       <div class="row">
         <div class="col-lg-12">
+            <mat-card class="result">
+                <mat-card-content>
+          <h3 class="example-h2">Price</h3>
+            <ng5-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options" (userChange)="onUserChange($event)"></ng5-slider>
+          </mat-card-content>
+        </mat-card> 
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
             <h2 class="my-4">Airlines</h2>
             <div *ngFor="let group of uniqueAirlines" class="list-group">
              
             <a style="cursor: pointer;" (click)="searchByAirline(group.name)" class="list-group-item">{{group.name}}</a>
         </div>
-         
-         
+      
           </div>
       </div>
 
@@ -237,7 +247,7 @@
             <h5 style="float: right;">{{groupItinerary.Currency}}{{groupItinerary.Price}}</h5>
           </div>
           <div class="col-lg-2" style="background: #E5E5E5;padding-right: 0px">
-            <button class="btn btn-primary widgetSearchBtn" style="float: right;padding-bottom: 13px;">BOOK NOW</button>
+            <button class="btn btn-primary widgetSearchBtn" style="float: right;padding-bottom: 13px;" (click)="selectPricedItinerary(i)">BOOK NOW</button>
           </div>
 
         </div>
@@ -245,7 +255,9 @@
           <ng-container
             *ngFor="let option of groupItinerary.GroupedOriginDestinationOptions[0].GroupedOriginDestinations; let j=index;">
               <div class="row col-lg-12" *ngIf="j==0">
-                <span class="radio col-lg-2"><input type="radio" name="selectedDestination" [(ngModel)]="selectedDestination" [value]="option" (change)="radioChangeHandler1()"></span>
+                <span class="radio col-lg-2">
+                  <input class="radioSelect" type="radio"  name="radioDestination" value="{{option.Id}}" (change)="radioChangeHandler1($event)">
+                </span>
                 
                 <div class="col-lg-3">
                   <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
@@ -264,7 +276,9 @@
               </div>
               <div class="col-lg-12" *ngIf="show==groupItinerary.GroupId">
                 <div *ngIf="j>=1" class="row">
-                    <span class="radio col-lg-2"><input type="radio" name="selectedDestination" [(ngModel)]="selectedDestination" [value]="option" (change)="radioChangeHandler1()"></span>
+                    <span class="radio col-lg-2">
+                      <input class="radioSelect" type="radio" name="radioDestination" value="{{option.Id}}" (change)="radioChangeHandler1($event)">
+                    </span>
                 
                     <div class="col-lg-3">
                       <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
@@ -285,12 +299,12 @@
               </div>
           </ng-container>
            
-            <p><a *ngIf="groupItinerary.GroupedOriginDestinationOptions[0].GroupedOriginDestinations.length>2" (click)="loadMore(groupItinerary.GroupId)" class="view-more-btn">More Timing Options</a></p>
+            <p><a #loadMoreBtn style="color: #fff;" *ngIf="groupItinerary.GroupedOriginDestinationOptions[0].GroupedOriginDestinations.length>2" (click)="loadMore(groupItinerary.GroupId);" class="view-more-btn">More Options</a></p>
             <ng-container *ngIf="searchResult.Results.SearchRequest.JourneyType==2">
             <ng-container
             *ngFor="let option of groupItinerary.GroupedOriginDestinationOptions[1].GroupedOriginDestinations; let j=index;">
               <div *ngIf="searchResult.Results.SearchRequest.JourneyType==2 && j==0" class="row col-lg-12" style="background: #f9f9f9;">
-                  <span class="radio col-lg-2"><input type="radio" name="selectedReturn" [(ngModel)]="selectedReturn" [value]="option" (change)="radioChangeHandler2()"></span>
+                  <span class="radio col-lg-2"><input class="radioSelect" type="radio" name="radioReturn" value="{{option.Id}}" (change)="radioChangeHandler2($event)"></span>
                 
                   <div class="col-lg-3">
                     <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
@@ -309,7 +323,7 @@
               </div>
               <div class="col-lg-12" *ngIf="show==groupItinerary.GroupId">
               <div *ngIf="searchResult.Results.SearchRequest.JourneyType==2 && j>=1" class="row" style="background: #f9f9f9;">
-                  <span class="radio col-lg-2"><input type="radio" name="selectedReturn" [(ngModel)]="selectedReturn" [value]="option" (change)="radioChangeHandler2()"></span>
+                  <span class="radio col-lg-2"><input class="radioSelect" type="radio" name="radioReturn" value="{{option.Id}}" (change)="radioChangeHandler2($event)"></span>
                 
                   <div class="col-lg-3">
                     <h3>{{option.DepartureDate | date:'HH:mm'}}</h3>
@@ -329,7 +343,7 @@
               </div>
             </ng-container>
             </ng-container>
-            <p *ngIf="searchResult.Results.SearchRequest.JourneyType==2"><a *ngIf="groupItinerary.GroupedOriginDestinationOptions[1].GroupedOriginDestinations.length>2" (click)="loadMore(groupItinerary.GroupId)" class="view-more-btn">More Timing Options</a></p>
+            <p *ngIf="searchResult.Results.SearchRequest.JourneyType==2"><a style="color: fff;" *ngIf="groupItinerary.GroupedOriginDestinationOptions[1].GroupedOriginDestinations.length>2" (click)="loadMore(groupItinerary.GroupId)" class="view-more-btn">More Options</a></p>
 
         
           </div>
@@ -337,18 +351,46 @@
 
 
         <div class="row" style="border-top: 1px solid #ddd;">
-          <div class="col-lg-3">
-            <button class="btn btn-default"><i class="flight icon-flight"></i> Itinerary</button>
-          </div>
-          <div class="col-lg-3">
-            <button class="btn btn-default"><i class="flight icon-box"></i>Fare Details</button>
-          </div>
-          <div class="col-lg-3">
-            <button class="btn btn-default"><i class="flight icon-tag-3"></i>Fare Rules</button>
-          </div>
-          <div class="col-lg-3">
-            <button class="btn btn-default"><i class="flight icon-bag"></i>Baggage Info</button>
-          </div>
+          
+          <mat-tab-group>
+              <mat-tab isActive="false">
+                <ng-template mat-tab-label>
+                    <i class="flight icon-flight"></i>
+                  Itinerary
+                </ng-template>
+                Content 1
+              </mat-tab>
+            
+              <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="flight icon-box"></i>
+                  Fare Details
+                </ng-template>
+                Content 2
+              </mat-tab>
+            
+              <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="flight icon-tag-3"></i>
+                  Fare Rules
+                </ng-template>
+            
+                Content 3
+              </mat-tab>
+              <mat-tab>
+                  <ng-template mat-tab-label>
+                      <i class="flight icon-bag"></i>
+                    Baggage Info
+                  </ng-template>
+                   <ng-template matTabContent>
+                    <p>how are you?   </p>
+                   </ng-template>
+                 
+                </mat-tab>
+            </mat-tab-group>
+
+
+
 
         </div>
       </ng-container>
@@ -357,3 +399,17 @@
   </div>
 
 </div>
+
+
+
+
+
+
+
+<ng-template #popItinerary>
+  
+  <a class="md-btn md-btn-success"
+   [class.disabled]="isClickedOnce"
+   (change)="isClickedOnce = true">Start</a>
+</ng-template>
+
