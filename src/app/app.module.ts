@@ -35,6 +35,9 @@ import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { NgbDateCustomParserFormatter } from './NgbDateCustomParserFormatter';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { SearchPipe } from './pipes/search.pipe';
+import { SearchByStopPipe } from './pipes/search-by-stop.pipe';
+import { FilterByPricePipe } from './pipes/filter-by-price.pipe';
 
 
 
@@ -52,7 +55,10 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     SearchFeedComponent,
     FlightComponent,
     MyTimePipe,
-    LoaderComponent
+    LoaderComponent,
+    SearchPipe,
+    SearchByStopPipe,
+    FilterByPricePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

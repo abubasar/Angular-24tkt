@@ -485,23 +485,31 @@ FromToNotSame(i){
 
 
  
-
+  lower;
+  higher;
   onUserChange(changeContext: ChangeContext): void {
-    this.searchResult.Results.AllGroupedIternaries = this.searchResult.Results.AllGroupedIternaries.filter((item: any) =>
-    item.Price >= changeContext.value && item.Price <= changeContext.highValue);
-    console.log(changeContext.value,changeContext.highValue);
+    this.lower=changeContext.value;
+    this.higher=changeContext.highValue;
+    // this.searchResult.Results.AllGroupedIternaries = this.searchResult.Results.AllGroupedIternaries.filter((item: any) =>
+    // item.Price >= changeContext.value && item.Price <= changeContext.highValue);
+    // console.log(changeContext.value,changeContext.highValue);
   }
     //.....................Slider................
+    airlineName;
     myFunc($event) {
       console.log($event.source.value);
-      this.searchResult.Results.AllGroupedIternaries= this.searchResult.Results.AllGroupedIternaries.filter(itinarary=>itinarary.AirlineName==$event.source.value)
+      this.airlineName=$event.source.value
+     // this.searchResult.Results.AllGroupedIternaries= this.searchResult.Results.AllGroupedIternaries.filter(itinarary=>itinarary.AirlineName==$event.source.value)
     }
-
+stop;
     searchByStop(stop:number){
-      let arr =  this.searchResult.Results.AllGroupedIternaries.map(x=> 
-        x.PricedIternaries = x.PricedIternaries.filter(x => x.Stops==stop)
-      )
-      console.log(arr);
+      this.stop=stop;
+      // let arr =  this.searchResult.Results.AllGroupedIternaries.map(x=> 
+      //   x.PricedIternaries = x.PricedIternaries.filter(x => x.Stops==stop)
+      // )
+      // console.log(arr);
       }
+
+      
     
 }

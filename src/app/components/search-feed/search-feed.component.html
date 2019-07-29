@@ -272,7 +272,7 @@
           <label class="dsb-label-color">Price</label>
         </div>
       </div>
-      <ng-container *ngFor="let groupItinerary of searchResult.Results.AllGroupedIternaries; let i=index;">
+      <ng-container *ngFor="let groupItinerary of searchResult.Results.AllGroupedIternaries |search:airlineName |searchByStop:stop |filterByPrice:lower:higher; let i=index;">
 
         <div class="row" style="padding-top: 30px;">
           <div class="row col-lg-6" style="background: #E5E5E5;padding-left: 0px;">
