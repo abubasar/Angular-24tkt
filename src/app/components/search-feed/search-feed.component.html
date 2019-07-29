@@ -187,25 +187,66 @@
 
       </div>
       <div class="row">
-        <div class="col-lg-12">
+        
             <mat-card class="result">
                 <mat-card-content>
           <h3 class="example-h2">Price</h3>
             <ng5-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options" (userChange)="onUserChange($event)"></ng5-slider>
           </mat-card-content>
-        </mat-card> 
 
-        </div>
+            </mat-card> 
+            <mat-card class="result">
+              <mat-card-content>
+        <h3 class="example-h2">Stops</h3>
+        <button mat-mini-fab color="primary" [disabled]="!list4.includes(0)" style="margin-right: 4px;" (click)="searchByStop(0)">0</button>
+        <button mat-mini-fab color="primary" [disabled]="!list4.includes(1)" style="margin-right: 4px;" (click)="searchByStop(1)" >1</button>
+        <button mat-mini-fab color="primary" [disabled]="!list4.includes(2)" (click)="searchByStop(2)">2</button>
+       
+        </mat-card-content>
+
+          </mat-card>
+
       </div>
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12"></div>
             <h2 class="my-4">Airlines</h2>
-            <div *ngFor="let group of uniqueAirlines" class="list-group">
-             
-            <a style="cursor: pointer;" (click)="searchByAirline(group.name)" class="list-group-item">{{group.name}}</a>
+            <div *ngFor="let airline of distinctAirlines;let k=index;">
+              <mat-checkbox [value]="airline" (change)="myFunc($event)" [id]="k" [name]="airline" [(indeterminate)]="indeterminate">{{airline}}</mat-checkbox>
+            <!-- <a style="cursor: pointer;" (click)="searchByAirline(distinctAirlines[k])" class="list-group-item">{{distinctAirlines[k]}}</a> -->
         </div>
       
           </div>
+      
+
+      <div class="row">
+          <h3 class="example-h2">From Dhaka</h3>
+       
+          <mat-card class="col-md-3">
+            <mat-card-content>
+              <i class="wi wi-horizon-alt"></i>
+              <span  style="font-size: 6px;border-top: 2px solid #ddd;">00-06</span>
+            </mat-card-content>
+          </mat-card> 
+          <mat-card class="col-md-3">
+            <mat-card-content>
+              <i class="wi wi-sunrise"></i>
+              <span  style="font-size: 6px;border-top: 2px solid #ddd;">06-12</span>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="col-md-3">
+            <mat-card-content>
+              <i class="wi wi-day-sunny"></i>
+              <span  style="font-size: 6px;border-top: 2px solid #ddd;">12-18</span>
+            </mat-card-content>
+          </mat-card> 
+          <mat-card class="col-md-3">
+            <mat-card-content>
+              <i class="wi wi-night-clear"></i>
+              <span  style="font-size: 6px;border-top: 2px solid #ddd;">18-00</span>
+            </mat-card-content>
+          </mat-card>
+         
+        
       </div>
 
     </div>

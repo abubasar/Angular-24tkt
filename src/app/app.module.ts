@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {DatePipe} from '@angular/common';
-import {MatCardModule, MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule } from '@angular/material';
+import {MatCheckboxModule,MatCardModule,MatButtonModule, MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule } from '@angular/material';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { Ng5SliderModule } from 'ng5-slider';
 
@@ -64,7 +64,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     TypeaheadModule.forRoot(),
     AppRoutingModule,
     MatProgressSpinnerModule,
-    MatCardModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule,
+    MatCheckboxModule,MatCardModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule,MatButtonModule,
     NgbModule,
     Ng5SliderModule,
     AngularMyDatePickerModule,

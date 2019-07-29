@@ -16,18 +16,12 @@ declare var $: any;
   styleUrls: ['./search-feed.component.css']
 })
 export class SearchFeedComponent implements OnInit {
-lowest = Number.POSITIVE_INFINITY;
-highest = Number.NEGATIVE_INFINITY;
-
+ list4=[]
+checked=false;
+indeterminate = false;
 state$: Observable<any>;
 searchResult:any;
-uniqueAirlines=[
-  {name:"Cathay Pacific"},
-  {name:"China Eastern Airlines"},
-  {name:"Singapore Airlines"},
-  {name:"Turkish Airlines"},
-  {name:"Qatar Airways"},
-  {name:"Air India"}
+distinctAirlines=[
 ]
   journeyTypes = [
     {JourneyType: 1, name: "One Way"},
@@ -119,17 +113,40 @@ uniqueAirlines=[
     this.getFlights();
 
 
-    //slider......................
-    for (let i=this.searchResult.Results.AllGroupedIternaries.length-1; i>=0; i--) {
-      let tmp = this.searchResult.Results.AllGroupedIternaries[i].Price;
-      if (tmp < this.options.floor) this.options.floor = tmp;
-      if (tmp > this.options.ceil) this.options.ceil = tmp;
-    }
-  this.minValue=this.options.floor;
-  this.maxValue=this.options.ceil;
+    //slider start......................
+    // for (let i=this.searchResult.Results.AllGroupedIternaries.length-1; i>=0; i--) {
+    //   let tmp = this.searchResult.Results.AllGroupedIternaries[i].Price;
+    //   if (tmp < this.options.floor) this.options.floor = tmp;
+    //   if (tmp > this.options.ceil) this.options.ceil = tmp;
+    // }
+ let arrPrice= this.searchResult.Results.AllGroupedIternaries.map(x=>x.Price)
+ this.options.floor=Math.min.apply(Math,arrPrice);
+ this.options.ceil=Math.max.apply(Math,arrPrice);
+  this.minValue=Math.min.apply(Math,arrPrice);
+  this.maxValue=Math.max.apply(Math,arrPrice);
 
   
-    //slider..........................
+    //.............slider end.........................
+
+    //..........filter...........
+let arrAirlines=this.searchResult.Results.AllGroupedIternaries.map(x=>x.AirlineName);
+console.log(arrAirlines);
+this.distinctAirlines=[...new Set(arrAirlines)];
+console.log(this.distinctAirlines)
+    //..............filter..............
+//stops filter......................
+let list1= this.searchResult.Results.AllGroupedIternaries.map(group=>group.PricedIternaries.map(x=>x.Stops));
+let list2:any[]=[...new Set(list1)];
+let list3=[]
+
+for ( let i = 0; i < list2.length; i++ ) {
+
+for ( var x = 0; x < list2[i].length; x++ ) {
+    list3.push(list2[i][x]);  
+}
+}
+this.list4=[...new Set(list3)]  
+console.log(this.list4);    
 
 //...................Travellers Touchspin.....................
     $(document).ready(()=>{
@@ -412,10 +429,7 @@ FromToNotSame(i){
       }
       
      
-      searchByAirline(airline){
-        this.searchResult.Results.AllGroupedIternaries= this.searchResult.Results.AllGroupedIternaries.filter(itinarary=>itinarary.AirlineName==airline)
-      }
-
+    
      removeDuplicates(myArr, prop) {
         return myArr.filter((obj, pos, arr) => {
             return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
@@ -449,15 +463,7 @@ FromToNotSame(i){
         
       }
       
-    //   getIds(){
-    //     this.searchResult.Results.AllGroupedIternaries.forEach(item=>{
-    //           let id=item.PricedIternaries[0].Id;
-    //           let myArr:any[]= id.split(',');
-    //           this.selectedDestinationId=myArr[0];
-    //           this.selectedReturnId=myArr[1];
-    //     })
-     
-    //  }
+    
 
     //.....................Slider.................
   minValue: number = 100;
@@ -468,21 +474,17 @@ FromToNotSame(i){
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
-          return '' + value;
+          return '\u09F3' +' '+ value;
         case LabelType.High:
-          return '' + value;
+          return '\u09F3' +' '+ value;
         default:
-          return '' + value;
+          return "\u09F3" + ' '+ value;
       }
     }
   };
 
 
-  myfunc(){
-    this.searchResult.Results.AllGroupedIternaries = this.searchResult.Results.AllGroupedIternaries.filter((item: any) =>
-    item.Price >= this.minValue && item.Price <= this.maxValue
-);
-  }
+ 
 
   onUserChange(changeContext: ChangeContext): void {
     this.searchResult.Results.AllGroupedIternaries = this.searchResult.Results.AllGroupedIternaries.filter((item: any) =>
@@ -490,5 +492,16 @@ FromToNotSame(i){
     console.log(changeContext.value,changeContext.highValue);
   }
     //.....................Slider................
-     
+    myFunc($event) {
+      console.log($event.source.value);
+      this.searchResult.Results.AllGroupedIternaries= this.searchResult.Results.AllGroupedIternaries.filter(itinarary=>itinarary.AirlineName==$event.source.value)
+    }
+
+    searchByStop(stop:number){
+      let arr =  this.searchResult.Results.AllGroupedIternaries.map(x=> 
+        x.PricedIternaries = x.PricedIternaries.filter(x => x.Stops==stop)
+      )
+      console.log(arr);
+      }
+    
 }
