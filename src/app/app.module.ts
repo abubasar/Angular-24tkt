@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {DatePipe} from '@angular/common';
-import {MatCheckboxModule,MatCardModule,MatButtonModule, MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule } from '@angular/material';
+import {MatExpansionModule,MatCheckboxModule,MatCardModule,MatButtonModule, MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule } from '@angular/material';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { Ng5SliderModule } from 'ng5-slider';
 
@@ -18,7 +18,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {NgbModule, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { CollapseModule, WavesModule } from 'angular-bootstrap-md'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -38,6 +38,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { SearchPipe } from './pipes/search.pipe';
 import { SearchByStopPipe } from './pipes/search-by-stop.pipe';
 import { FilterByPricePipe } from './pipes/filter-by-price.pipe';
+import { FilterByTimePipe } from './pipes/filter-by-time.pipe';
 
 
 
@@ -58,7 +59,8 @@ import { FilterByPricePipe } from './pipes/filter-by-price.pipe';
     LoaderComponent,
     SearchPipe,
     SearchByStopPipe,
-    FilterByPricePipe
+    FilterByPricePipe,
+    FilterByTimePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -70,11 +72,11 @@ import { FilterByPricePipe } from './pipes/filter-by-price.pipe';
     TypeaheadModule.forRoot(),
     AppRoutingModule,
     MatProgressSpinnerModule,
-    MatCheckboxModule,MatCardModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule,MatButtonModule,
+    MatExpansionModule,MatCheckboxModule,MatCardModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,MatIconModule,MatNativeDateModule,MatTabsModule,MatSliderModule,MatButtonModule,
     NgbModule,
     Ng5SliderModule,
     AngularMyDatePickerModule,
-    MDBBootstrapModule.forRoot(),
+    CollapseModule.forRoot(), WavesModule.forRoot(),
     AccordionModule.forRoot(),
   ],
   providers: [

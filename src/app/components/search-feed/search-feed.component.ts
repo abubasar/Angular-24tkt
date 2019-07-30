@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { FlightService } from 'src/app/services/flight.service';
@@ -8,6 +8,7 @@ import {coerceNumberProperty} from '@angular/cdk/coercion';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Options, LabelType, ChangeContext } from 'ng5-slider';
+import { CollapseComponent } from 'angular-bootstrap-md';
 
 declare var $: any;
 @Component({
@@ -16,6 +17,20 @@ declare var $: any;
   styleUrls: ['./search-feed.component.css']
 })
 export class SearchFeedComponent implements OnInit {
+  //....collapse    AfterViewInit
+  
+  // @ViewChildren(CollapseComponent) collapses: CollapseComponent[];
+
+  // ngAfterViewInit() {
+  //   Promise.resolve().then(() => {
+  //     this.collapses.forEach((collapse: CollapseComponent) => {
+  //       collapse.toggle();
+  //     });
+  //   })
+  // }
+
+
+  //..collapse
  list4=[]
 checked=false;
 indeterminate = false;
@@ -490,26 +505,30 @@ FromToNotSame(i){
   onUserChange(changeContext: ChangeContext): void {
     this.lower=changeContext.value;
     this.higher=changeContext.highValue;
-    // this.searchResult.Results.AllGroupedIternaries = this.searchResult.Results.AllGroupedIternaries.filter((item: any) =>
-    // item.Price >= changeContext.value && item.Price <= changeContext.highValue);
-    // console.log(changeContext.value,changeContext.highValue);
   }
     //.....................Slider................
     airlineName;
     myFunc($event) {
       console.log($event.source.value);
-      this.airlineName=$event.source.value
-     // this.searchResult.Results.AllGroupedIternaries= this.searchResult.Results.AllGroupedIternaries.filter(itinarary=>itinarary.AirlineName==$event.source.value)
+      this.airlineName=$event.source.value;
     }
-stop;
+     stop;
     searchByStop(stop:number){
       this.stop=stop;
-      // let arr =  this.searchResult.Results.AllGroupedIternaries.map(x=> 
-      //   x.PricedIternaries = x.PricedIternaries.filter(x => x.Stops==stop)
-      // )
-      // console.log(arr);
       }
-
-      
+      startTime;
+      endTime;
+      filterByTime(str:string){
+         let arr=str.split('-');
+         this.startTime=arr[0];
+         this.endTime=arr[1];
+      }   
     
+    expanded(){
+        alert('ok');
+     }
+
+     showBsCollapse(){
+       alert('ok');
+     }
 }
